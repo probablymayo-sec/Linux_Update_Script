@@ -10,6 +10,9 @@ The results of the script will be loged in a file ```/var/log/weekly-updates.log
 - stdout and stderr are both thrown into this file
   - If you don't want this, then you can just delete this line or comment out ```exec >>/var/log/weekly-updates.log 2>&1```
 
+FYI - You may get an error `bash: ./updateScript.sh: cannot execute: required file not found`. 
+- This likely means that the file has Windows line endings (CRLF). Fix it with: `dos2unix updateScript.sh`  
+
 ## Setting a Weekly Cron Job
 
 First download the script to the system
