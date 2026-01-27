@@ -27,5 +27,4 @@ then
         /sbin/reboot
 fi
 
-done
        
