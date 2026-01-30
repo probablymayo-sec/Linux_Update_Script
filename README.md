@@ -15,23 +15,24 @@ FYI - You may get an error `bash: ./updateScript.sh: cannot execute: required fi
 
 ## Setting a Weekly Cron Job
 
-First download the script to the system
+In order to set the cron job, the easiest way to start is to login as root. You could use sudo privs as well but I find using root tmeporarily for this much easier. The reason you need to login as root is because these commands require superuser or root privs in order to run. With that being said, unless your script is being run as root, you will still need to manually type in your user password in order to apply the updates. That would ruin the point of using cron to schedule this unless you plan to run this manually.
 
-In order to set the cron job, the easiest way to start is to login as root. You could use sudo privs as well but I find using root tmeporarily for this much easier. The reason you need to login as root is because these commands require superuser or root privs in order to run. With that being said, unless your script is being run as root, you will still need to manually type in your user password in order to apply the updates. That would ruin the point of using cron to schedule this unless you plan to run this manually. 
+In addition to this, running performing this as root is important for security reasons. Here it doesn't do much since your user is part of the sudoers group (elevated privs) but in a lot of environments, restricting file interactions by only giving read / write and ownership to the root account will prevent anyone from editing the script if they gain access to a lower level users credentials. If a normal user without sudo privs was allowed to edit a weekly cron job that ran with root priveleges, then they could effectively change the script to be able to do anything they want.
+
 - login as root with ```sudo su```
 
 Give the file execute privileges with   ```chmod +x updateScript.sh```
 
-Although not necessary, you can change the ownership of the file to root as well. Good general practice: anything executed by root on a schedule should not be modifiable by non-root users.
+Although not necessary, you can change the ownership of the file to root. As mentioned above, this is good general practice: anything executed by root on a schedule should not be modifiable by non-root users.
 - do this with ```chown root:root updateScript.sh```
 
 ### Option 1
 
 This option is easiest to "apply and forget" about the script. Use option 2 if you want more control over the exact time/day that the script runs.
 
-You're going to copy the file into **/etc/cron.weekly**. On Debian/Kali, anything executable in /etc/cron.weekly/ will run automatically. Copy the file into the directory with: 
-- ```mv updateScript.sh /etc/cron.weekly/weekly-update```
-  - I named it weekly-update but you can name it whatever you want
+You're going to copy the file into **/etc/cron.weekly**. On Debian/Kali, anything executable in **/etc/cron.weekly/** will run automatically. Copy the file into the directory with: 
+- ```mv updateScript.sh /etc/cron.weekly/updateScript.sh```
+  - I re-named the update script it weekly-update but you can name it whatever you want
 
 And you're all done
 
